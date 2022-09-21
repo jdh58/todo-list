@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="categories-header">
+            <h2 class="header">Categories</h2>
+            <img src="./icons/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+        </div>
+        <div class="todo-header">
+            <h1 class="header">To-Do List</h1>
+            <img src="./icons/arrow-thicker.svg" alt="">
+        </div>
+    </header>
+    <nav>
+        <ul class="categories list">
+            <li class="category"> <img src="./icons/inbox_FILL0_wght400_GRAD0_opsz48.svg"> All</li>
+            <li class="category"> <img src="./icons/sunny_FILL0_wght400_GRAD0_opsz48.svg"> Today</li>
+            <li class="category"> <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg"> Past Due</li>
+            <li class="category"> <img src="./icons/date_range_FILL0_wght400_GRAD0_opsz48.svg"> This Week</li>
+            <li class="category"> <img src="./icons/priority_high_FILL0_wght400_GRAD0_opsz48.svg"> High Priority</li>
+            <li class="projects-header category"> <img src="./icons/arrow-thicker.svg"> Projects</li>
+            <ul class="projects list">
+                <li data-projectnum="1" class="project category"><div></div> Boobies</li>
+            </ul>
+        </ul>
+
+    </nav>
+    <main>
+        <h2 class="to-do-header">Past Due <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item"><div><div class="check-circle"></div></div> Find god</li>
+        <h2 class="to-do-header"><div><div class="check-circle"></div></div>Today <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item"><div><div class="check-circle"></div></div>Wash your face, wash your butt</li>
+        <li class="to-do-item"><div><div class="check-circle"></div></div>Clean fish</li>
+        <li class="to-do-item"><div><div class="check-circle"></div></div>Adjust shower temperature</li>
+        <h2 class="to-do-header"><div><div class="check-circle"></div></div>This Week <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item"><div><div class="check-circle"></div></div>Wipe out McDonald's diapers</li>
+        <li class="to-do-item"><div><div class="check-circle"></div></div>Re-adjust trumpet</li>
+    </main>
+
+    <form class="hidden" id="addNewToDo" action="">
+        <fieldset>
+            <div>
+                <label for="task">Task</label>
+                <input id="task" name="task" type="text" minlength="1" maxlength="20"
+                placeholder="Wash the dishes...">
+            </div>
+            <div>
+                <label for="date">Date</label>
+                <input id="date" name="date" type="date">
+            </div>
+            <div>
+                <label for="priority">Priority</label>
+                <select name="priority" id="priority">
+                    <option value="low">Low</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div>
+                <label for="notes">Notes</label>
+                <textarea for="notes" name="notes" placeholder="Use the green sponge..."></textarea>
+            </div>
+            <div>
+                <label for="project">Project</label>
+                <select id="project" name="project">
+                    <option value="boobies">Boobies</option>
+                </select>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

@@ -1,0 +1,281 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*////////////// END OF CSS RESET ////////////////*/
+
+:root {
+    font-size: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+
+    --fuchsia-50: #fdf4ff;
+    --fuchsia-100: #fae8ff;
+    --fuchsia-200: #f5d0fe;
+    --fuchsia-300: #f0abfc;
+    --fuchsia-400: #e879f9;
+    --fuchsia-500: #d946ef;
+    --fuchsia-600: #c026d3;
+    --fuchsia-700: #a21caf;
+    --fuchsia-800: #86198f;
+    --fuchsia-900: #701a75;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    color: black;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 100px 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* width: min(300px, ) */
+header {
+    position: relative;
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    background-color: #e7e7e7;
+    display: flex;
+    align-items: end;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.23);
+}
+
+nav {
+    grid-row: 2 / -1;
+    grid-column: 1 / 2;
+    background: #eeeeee;
+    padding-top: 25px;
+    padding-left: 25px;
+}
+
+main {
+    grid-row: 2 / -1;
+    grid-column: 2 / -1;
+    /* background-color: #ffffee; */
+    background-image: radial-gradient(#fffffe, #ffffee);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.23);
+    padding-top: 10px;
+    padding-left: 40px;
+}
+
+/* hr {
+    background-color: rgb(21, 161, 255);
+    width: 100%;
+    height: 1px;
+    border: none;
+} */
+
+.categories-header {
+    width: 250px;
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 600;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+
+.categories-header > img, .to-do-header > img {
+    height: 35px;
+    padding: 5px;
+    padding-left: 4px;
+    padding-right: 6px;
+    border-radius: 100%;
+    margin-left: 3px;
+    transition: background-color, .3s;
+}
+.categories-header > img:hover, .to-do-header > img:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.211);
+}
+
+.todo-header {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 5rem;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+.todo-header > img {
+    height: 45px;
+    padding: 5px;
+    padding-left: 3px;
+    padding-right: 7px;
+    margin-left: 10px;
+    border-radius: 100%;
+    transform: rotate(270deg);
+    transition: background-color, .3s;
+}
+.todo-header > img:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.211);
+}
+
+.category {
+    display: flex;
+    align-items: center;
+    gap: 7.5px;
+    padding: 5px 10px;
+    padding-left: 7.5px;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    transition: background-color, .2s;
+    width: fit-content;
+}
+.category:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.211);
+}
+.category > img {
+    height: 25px;
+}
+
+.projects-header {
+    margin-top: 25px;
+    font-weight: 600;
+}
+.projects-header:hover {
+    background-color: transparent;
+}
+.projects-header > img {
+    padding: 5px;
+    padding-left: 3px;
+    padding-right: 7px;
+    border-radius: 100%;
+    transform: rotate(270deg);
+    transition: background-color, .2s;
+}
+.projects-header:hover > img {
+    background-color: rgba(0, 0, 0, 0.211);
+}
+
+
+.projects {
+    margin-left: 30px;
+}
+.project.category > div {
+    background-color: rgb(0, 255, 17);
+    width: 9px;
+    height: 9px;
+    border-radius: 100%;
+    border: .5px black solid;
+}
+.project {
+    font-size: 2rem;
+}
+
+.to-do-header {
+    display: flex;
+    align-items: center;
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.to-do-header > img {
+    height: 30px;
+    margin-left: 5px;
+    transform: rotate(270deg);
+}
+
+.to-do-item {
+    display: flex;
+    font-size: 2.25rem;
+    align-items: center;
+    transition: background-color, .2s;
+    width: fit-content;
+    padding-right: 10px;
+    border-radius: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+}
+.to-do-item:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.211);
+}
+.to-do-item > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1.5px solid rgb(0, 0, 0);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.to-do-item > div > div {
+    width: 12px;
+    height: 12px;
+    background-color: rgb(0, 0, 0);
+    padding: 5px;
+    border-radius: 50%;
+}
+
+main > input {
+    margin-left: 20px;
+    
+}
+
+.check-circle {
+    display: none;
+}
