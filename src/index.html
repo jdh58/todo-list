@@ -18,7 +18,7 @@
         </div>
         <div class="todo-header">
             <h1 class="header">To-Do List</h1>
-            <img src="./icons/arrow-thicker.svg" alt="">
+            <img src="./icons/add_circle_FILL0_wght400_GRAD0_opsz48.svg" alt="">
         </div>
     </header>
     <nav>
@@ -36,29 +36,79 @@
 
     </nav>
     <main>
-        <h2 class="to-do-header">Past Due <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
-        <li class="to-do-item"><div><div class="check-circle"></div></div> Find god</li>
-        <h2 class="to-do-header"><div><div class="check-circle"></div></div>Today <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
-        <li class="to-do-item"><div><div class="check-circle"></div></div>Wash your face, wash your butt</li>
-        <li class="to-do-item"><div><div class="check-circle"></div></div>Clean fish</li>
-        <li class="to-do-item"><div><div class="check-circle"></div></div>Adjust shower temperature</li>
-        <h2 class="to-do-header"><div><div class="check-circle"></div></div>This Week <img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
-        <li class="to-do-item"><div><div class="check-circle"></div></div>Wipe out McDonald's diapers</li>
-        <li class="to-do-item"><div><div class="check-circle"></div></div>Re-adjust trumpet</li>
+        <h2 class="to-do-header">Past Due<img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Find god</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>        
+        </li>
+        <h2 class="to-do-header">Today<img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Wash your face, wash your butt</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>
+        </li>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Clean fish</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>
+        </li>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Adjust shower temperature</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>        
+        </li>
+        <h2 class="to-do-header">This Week<img src="./icons/arrow-thicker.svg" alt="close/expand"></h2>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Wipe out McDonald's chicken</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>        
+        </li>
+        <li class="to-do-item">
+            <div><div class="check-circle"></div></div>
+            <p>Re-adjust trumpet</p>
+            <span class="options">
+                <p class="date">07-18-2022</p>
+                <img src="./icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+                <img src="./icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            </span>        
+        </li>
     </main>
 
-    <form class="hidden" id="addNewToDo" action="">
+    <form id="addNewToDo" action="">
         <fieldset>
-            <div>
+            <img src="./icons/close_FILL0_wght400_GRAD0_opsz48.svg" alt="">
+            <label>Add New Task</label>
+            <div class="task-form">
                 <label for="task">Task</label>
                 <input id="task" name="task" type="text" minlength="1" maxlength="20"
                 placeholder="Wash the dishes...">
             </div>
-            <div>
+            <div class="date-form">
                 <label for="date">Date</label>
                 <input id="date" name="date" type="date">
             </div>
-            <div>
+            <div class="priority-form">
                 <label for="priority">Priority</label>
                 <select name="priority" id="priority">
                     <option value="low">Low</option>
@@ -66,16 +116,17 @@
                     <option value="high">High</option>
                 </select>
             </div>
-            <div>
+            <div class="notes-form">
                 <label for="notes">Notes</label>
                 <textarea for="notes" name="notes" placeholder="Use the green sponge..."></textarea>
             </div>
-            <div>
+            <div class="project-form">
                 <label for="project">Project</label>
                 <select id="project" name="project">
                     <option value="boobies">Boobies</option>
                 </select>
             </div>
+            <button type="submit">Submit</button>
         </fieldset>
     </form>
 </body>
