@@ -56,6 +56,56 @@ table {
 
 /*////////////// END OF CSS RESET ////////////////*/
 
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-ExtraLight.ttf);
+    font-style: normal;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-Light.ttf);
+    font-style: normal;
+    font-weight: 400
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-Regular.ttf);
+    font-style: normal;
+    font-weight: 500
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-SemiBold.ttf);
+    font-style: normal;
+    font-weight: 600
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-Bold.ttf);
+    font-style: normal;
+    font-weight: 700
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-Black.ttf);
+    font-style: normal;
+    font-weight: 800
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url(./fonts/SourceSansPro-BlackItalic.ttf);
+    src: url(./fonts/SourceSansPro-BoldItalic.ttf);
+    src: url(./fonts/SourceSansPro-SemiBoldItalic.ttf);
+    src: url(./fonts/SourceSansPro-Italic.ttf);
+    src: url(./fonts/SourceSansPro-LightItalic.ttf);
+    src: url(./fonts/SourceSansPro-ExtraLightItalic.ttf);
+    font-style: italic;
+}
+
 :root {
     font-size: 10px;
     font-family: 'Source Sans Pro', sans-serif;
@@ -70,6 +120,7 @@ table {
     --fuchsia-700: #a21caf;
     --fuchsia-800: #86198f;
     --fuchsia-900: #701a75;
+    --highlight-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.232);
 }
 
 .hidden {
@@ -113,6 +164,7 @@ main {
     padding-top: 10px;
     padding-left: 40px;
     padding-right: 40px;
+    overflow: scroll;
 }
 
 /* hr {
@@ -127,44 +179,48 @@ main {
     display: flex;
     align-items: center;
     font-size: 3rem;
-    font-weight: 600;
-    padding-bottom: 5px;
+    font-weight: 400;
+    padding-bottom: 10px;
     padding-left: 10px;
 }
 
 .categories-header > img, .to-do-header > img {
-    height: 35px;
+    /* display: none; */
+    height: 30px;
     padding: 5px;
     padding-left: 4px;
     padding-right: 6px;
     border-radius: 100%;
     margin-left: 3px;
-    transition: background-color, .3s;
+    transition: background-color, .3s, box-shadow, .15s;
 }
 .categories-header > img:hover, .to-do-header > img:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.211);
+    box-shadow: var(--highlight-shadow);
 }
 
 .todo-header {
     display: flex;
     align-items: center;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 5rem;
     margin-left: 10px;
     margin-bottom: 5px;
 }
 .todo-header > img {
+    font-size: 0px;
     height: 45px;
     padding: 4px;
     margin-left: 10px;
     border-radius: 100%;
     transform: rotate(270deg);
-    transition: background-color, .3s;
+    transition: background-color, .3s, box-shadow, .15s;
 }
 .todo-header > img:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.211);
+    box-shadow: var(--highlight-shadow);
 }
 
 .category {
@@ -176,23 +232,29 @@ main {
     font-size: 2rem;
     margin-bottom: 5px;
     border-radius: 15px;
-    transition: background-color, .2s;
+    transition: background-color, .2s, box-shadow, .2s;
     width: fit-content;
+    font-weight: 400;
 }
 .category:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.211);
+    box-shadow: var(--highlight-shadow);
 }
 .category > img {
     height: 25px;
 }
+.category:first-child {
+    font-weight: 600;
+}
 
 .projects-header {
     margin-top: 25px;
-    font-weight: 600;
+    font-weight: 500;
 }
 .projects-header:hover {
     background-color: transparent;
+    box-shadow: none;
 }
 .projects-header > img {
     padding: 5px;
@@ -200,15 +262,16 @@ main {
     padding-right: 7px;
     border-radius: 100%;
     transform: rotate(270deg);
-    transition: background-color, .2s;
+    transition: background-color, .2s, box-shadow, .2s;
 }
 .projects-header:hover > img {
     background-color: rgba(0, 0, 0, 0.211);
+    box-shadow: var(--highlight-shadow);
 }
 
-
-.projects {
+li.project.category {
     margin-left: 30px;
+    font-weight: 400;
 }
 .project.category > div {
     background-color: rgb(0, 255, 17);
@@ -225,11 +288,12 @@ main {
     display: flex;
     align-items: center;
     font-size: 3.5rem;
-    font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 .to-do-header > img {
+    font-size: 0px;
     height: 30px;
     margin-left: 5px;
     transform: rotate(270deg);
@@ -237,7 +301,7 @@ main {
 
 .to-do-item {
     display: flex;
-    font-size: 2.25rem;
+    font-size: 2rem;
     align-items: center;
     background-color: #fff;
     border: 1px black solid;
@@ -247,26 +311,38 @@ main {
     border-radius: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 /* .to-do-item:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.211);
 } */
+
+.to-do-item > p {
+    padding: 4px 5px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: background-color, box-shadow, .15s;
+}
+.to-do-item > p:hover {
+    background-color: rgba(0, 0, 0, 0.211);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.232);
+    cursor: pointer;
+}
+
 .to-do-item > div {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1.5px solid rgb(0, 0, 0);
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 4px;
     border-radius: 50%;
 }
 .to-do-item > div > div {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background-color: rgb(0, 0, 0);
     border-radius: 50%;
 }
@@ -283,6 +359,7 @@ main {
 }
 
 .options > img {
+    font-size: 0;
     height: 35px;
     border-radius: 5px;
     transition: background-color, .2s;
@@ -308,7 +385,7 @@ main > input {
     display: none;
 } */
 
-#addNewToDo {
+.to-do-overlay {
     position: absolute;
     display: flex;
     width: 100%;
@@ -317,36 +394,48 @@ main > input {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.319);
 }
+.to-do-overlay.hidden {
+    display: none;
+}
 
-#addNewToDo fieldset {
+fieldset {
+    height: 500px;
+}
+
+.to-do-overlay .fieldset-wrapper {
     display: grid;
     row-gap: 10px;
     grid-template-columns: 1fr 6fr 1fr;
     grid-template-rows: repeat(7, 1fr);
     background-color: #fff;
     border: black solid 2px;
-    border-radius: 6px;
+    border-radius: 9px;
     width: 600px;
-    height: min(100%, 500px);
+    height: 100%;
     padding: 20px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.371);
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.371);
 }
 
-fieldset > img {
+.fieldset-wrapper > img {
     height: 40px;
     grid-column: -2 / -1;
     margin-left: auto;
     margin-right: 5px;
     border-radius: 50%;
+    margin-top: 7.5px;
     transition: background-color, .15s;
 }
 
-fieldset > img:hover {
+.fieldset-wrapper > img:hover {
     background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.232);
 }
 
-fieldset > label {
-    font-size: 42px;
+.fieldset-wrapper > legend {
+    font-size: 38px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -354,19 +443,19 @@ fieldset > label {
     grid-column: 2 / 3;
 }
 
-fieldset > div {
+.fieldset-wrapper > div {
     display: flex;
     align-items: center;
     gap: 35px;
 }
 
-fieldset > div > label {
+.fieldset-wrapper > div > label {
     font-weight: 600;
     font-size: 22px;
     vertical-align: bottom;
 }
 
-fieldset > div > input, fieldset > div > select {
+.fieldset-wrapper > div > input, .fieldset-wrapper > div > select {
     width: 100%;
     height: 4rem;
     font-size: 16px;
@@ -374,9 +463,9 @@ fieldset > div > input, fieldset > div > select {
     border-radius: 6px;
     border: solid 1px black
 }
-fieldset > div > textarea {
+.fieldset-wrapper > div > textarea {
     width: 100%;
-    height: 80%;
+    height: 85%;
     font-size: 15px;
     padding-left: 5px;
     border-radius: 6px;
@@ -408,7 +497,7 @@ fieldset > div > textarea {
     grid-column: 2 / 3;
 }
 
-fieldset > button {
+.fieldset-wrapper > button {
     grid-row: -2 / -1;
     grid-column: 2 / 3;
     width: 250px;
@@ -423,10 +512,10 @@ fieldset > button {
     transition: background-color, .15s, box-shadow, .15s, transform, .15s;
 }
 
-fieldset > button:hover {
+.fieldset-wrapper > button:hover {
     background-color: rgba(0, 0, 0, 0.062);
 }
-fieldset > button:active {
+.fieldset-wrapper > button:active {
     background-color: rgba(0, 0, 0, 0.062);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.223);
     transform: translate(1px, 1px);

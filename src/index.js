@@ -1,9 +1,13 @@
+import './styles.css';
+import { loadPage } from './buildPage.js';
+/*
+console.log(DOMmanip.addNewToDo);
+*/
 (function () {
-    document.querySelector('.submit')
-    .addEventListener('click', createNewToDo);
-    loadPage.load();
-})()
-
+    loadPage();
+    //document.querySelector('.submit')
+    //.addEventListener('click', createNewToDo);
+})()/*
 
 const toDoItem = (task, dueDate, priority, notes, project) => {
     let completed = false;
@@ -21,7 +25,6 @@ function createNewToDo(event) {
 
     toDoArray.addToDo(newToDo);
     DOMmanip.addNewToDo(newToDo);
-    
     toDoForm.reset();
     DOMmanip.newToDoForm.close();
 }
@@ -37,5 +40,9 @@ const toDoArray = () => {
         toDoArr = toDoArr.slice(0, location-1) + toDoArr.slice(location+1);
     }
 
+    const updateToDo = (location, newToDo) => {
+        toDoArr[location] = newToDo;
+    }
+
     return { addToDo, removeToDo };
-}
+}*/
