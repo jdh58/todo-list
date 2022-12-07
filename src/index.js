@@ -1,13 +1,15 @@
 import './styles.css';
 import { loadPage } from './buildPage.js';
+import * as DOMmanip from './DOMmanip.js';
 /*
 console.log(DOMmanip.addNewToDo);
 */
 (function () {
     loadPage();
-    //document.querySelector('.submit')
-    //.addEventListener('click', createNewToDo);
-})()/*
+    DOMmanip.loadEventListeners();
+    document.querySelector('.submit')
+    .addEventListener('click', createNewToDo);
+})()
 
 const toDoItem = (task, dueDate, priority, notes, project) => {
     let completed = false;
@@ -18,15 +20,22 @@ function createNewToDo(event) {
     // Stops page from refreshing
     event.preventDefault();
 
-    toDoForm = document.getElementById('addToDoForm');
+    // Make the form an easy to understand variable
+    let form = document.querySelector('#addNewToDo');
 
-    newToDo = toDoItem ( toDoForm.task, toDoForm.dueDate, toDoForm.priority,
-        toDoForm.notes, toDoForm.completed, toDoForm.project );
+    // Construct the new To-do
+    let newToDo = toDoItem(form.elements['task'].value,
+    form.elements['date'].value, form.elements['priority'].value,
+    form.elements['notes'].value, form.elements['project'].value)
 
-    toDoArray.addToDo(newToDo);
+    // Add this new To-do to the array that keeps track of all todos
+    toDoArray().addToDo(newToDo);
+    
+    // Now close the overlay
+    DOMmanip.newToDoForm().close();
+
+    // Finally, display the to-do on the page
     DOMmanip.addNewToDo(newToDo);
-    toDoForm.reset();
-    DOMmanip.newToDoForm.close();
 }
 
 const toDoArray = () => {
@@ -45,4 +54,4 @@ const toDoArray = () => {
     }
 
     return { addToDo, removeToDo };
-}*/
+}

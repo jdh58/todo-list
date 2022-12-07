@@ -450,7 +450,7 @@ fieldset {
 }
 
 .fieldset-wrapper > div > label {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 22px;
     vertical-align: bottom;
 }

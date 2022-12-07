@@ -120,6 +120,9 @@ export const loadPage = () => {
     }
 
     newForm('task', 'input', 'Wash the dishes');
+    content.querySelector('#task').setAttribute('minlength', '1');
+    content.querySelector('#task').setAttribute('maxlength', '20');
+
     newForm('date', 'input');
     newForm('priority', 'select');
     addOptions('priority', 'low', 'normal', 'high');
