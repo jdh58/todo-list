@@ -40,16 +40,19 @@ export const loadPage = () => {
     content.querySelector('nav').appendChild(document.createElement('ul'));
     let navUl = content.querySelector('nav > ul');
     navUl.classList.add('categories', 'list')
-    const addCat = (icon, title) => {
+    const addCat = (icon, title, catName) => {
         navUl.appendChild(li.cloneNode(true)).classList.add('category');
+        navUl.lastChild.classList.add(catName);
         navUl.lastChild.appendChild(img.cloneNode(true)).setAttribute('src', icon)
         navUl.lastChild.appendChild(p.cloneNode(true)).textContent = title;
     }
-    addCat(Inbox, 'All');
-    addCat(Sunny, 'Today');
-    addCat(Danger, 'Past Due');
-    addCat(DateRange, 'This Week');
-    addCat(HighPriority, 'High Priority');
+    addCat(Inbox, 'Inbox', 'inbox');
+    addCat(Sunny, 'Today', 'today');
+    addCat(Danger, 'Past Due', 'pastdue');
+    addCat(DateRange, 'This Week', 'thisweek');
+    addCat(HighPriority, 'High Priority', 'highpriority');
+
+    navUl.querySelector('.inbox > p').classList.add('bold')
     
     navUl.appendChild(li.cloneNode(true)).classList.add('projects-header', 'category');
     navUl.lastChild.appendChild(img.cloneNode(true)).setAttribute('src', ThickArrow)
@@ -61,22 +64,24 @@ export const loadPage = () => {
     content.querySelector('.projects.list > li').appendChild(div.cloneNode(true));
     content.querySelector('.projects.list > li').appendChild(p.cloneNode(true)).textContent = 'Boobies';
 
+    //now for main
     content.appendChild(document.createElement('main'));
-    content.querySelector('main').appendChild(h2.cloneNode(true)).classList.add('to-do-header');
-    content.querySelector('.to-do-header').appendChild(p.cloneNode(true)).textContent = 'Past Due'
-    content.querySelector('.to-do-header').appendChild(img.cloneNode(true)).setAttribute('src', ThickArrow);
-    content.querySelector('.to-do-header > img').setAttribute('alt', 'close/expand');
-    content.querySelector('main').appendChild(li.cloneNode(true)).classList.add('to-do-item');
-    content.querySelector('.to-do-item').appendChild(div.cloneNode(true));
-    content.querySelector('.to-do-item > div').appendChild(div.cloneNode(true)).classList.add('check-circle');
-    content.querySelector('.to-do-item').appendChild(p.cloneNode(true)).textContent = 'Find god';
-    content.querySelector('.to-do-item').appendChild(span.cloneNode(true)).classList.add('options');
-    content.querySelector('.options').appendChild(p.cloneNode(true)).classList.add('date');
-    content.querySelector('.options .date').textContent = '07-18-2022';
-    content.querySelector('.options').appendChild(img.cloneNode(true)).setAttribute('src', Edit);
-    content.querySelector('.options').lastChild.setAttribute('alt', 'edit');
-    content.querySelector('.options').appendChild(img.cloneNode(true)).setAttribute('src', Danger);
-    content.querySelector('.options').lastChild.setAttribute('alt', 'delete');
+    //now for main
+    const buildHeader = (headerId, headerText) => {
+        document.querySelector('main').appendChild(document.createElement('div')).classList.add(`${headerId}-group`);
+        document.querySelector(`.${headerId}-group`).classList.add('hidden');
+        document.querySelector(`.${headerId}-group`).appendChild(document.createElement('h2')).classList.add('to-do-header');
+        document.querySelector(`.${headerId}-group > .to-do-header:last-child`).appendChild(document.createElement('p')).textContent = headerText;
+        document.querySelector(`.${headerId}-group > .to-do-header:last-child`).appendChild(document.createElement('img')).setAttribute('src', ThickArrow);
+        document.querySelector(`.${headerId}-group > .to-do-header:last-child > img`).setAttribute('alt', 'close/expand');
+        document.querySelector(`.${headerId}-group > .to-do-header:last-child > img`).classList.add('collapse-arrow');
+    }
+
+    buildHeader('highpriority', 'High Priority');
+    buildHeader('pastdue', 'Past Due');
+    buildHeader('today', 'Today');
+    buildHeader('thisweek', 'This Week');
+    buildHeader('inbox', 'All');
 
     // now for overlay
     content.appendChild(document.createElement('form')).classList.add('to-do-overlay', 'hidden');

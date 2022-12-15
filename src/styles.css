@@ -127,6 +127,10 @@ table {
     display: none;
 }
 
+.bold {
+    font-weight: 600;
+}
+
 body {
     color: black;
     display: grid;
@@ -243,9 +247,6 @@ main {
 }
 .category > img {
     height: 25px;
-}
-.category:first-child {
-    font-weight: 600;
 }
 
 .projects-header {
