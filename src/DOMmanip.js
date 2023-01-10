@@ -2,7 +2,7 @@ import ThickArrow from './icons/arrow-thicker.svg'
 import Edit from './icons/edit_square_FILL0_wght400_GRAD0_opsz48.svg'
 import Danger from './icons/dangerous_FILL0_wght400_GRAD0_opsz48.svg'
 import { format, formatDistance, formatRelative, parseISO, addDays } from 'date-fns';
-import { controller } from './index.js'
+import { controller, categories } from './index.js'
 
 
 // Adds the necessary event listeners on page load
@@ -11,6 +11,15 @@ export const loadEventListeners = () => {
     .addEventListener('click', newToDoForm().open);
     document.querySelector('.create')
     .addEventListener('click', newToDoForm().newify);
+
+    document.querySelector('.create-project')
+    .addEventListener('click', newProjectForm().wipe)
+    document.querySelector('.create-project')
+    .addEventListener('click', newProjectForm().open)
+    // Add event listener for making new todo on submit
+    document.querySelector('.project-submit')
+    .addEventListener('click', categories().createNewProject);
+    
 }
 
 export const newToDoForm = () => {
@@ -90,7 +99,6 @@ export const newToDoForm = () => {
         // Make the form an easy to understand variable
         let form = document.querySelector('#addNewToDo');
     
-        console.log(toDo)
         const changeForm = (userValue) => {
             form.elements[`${userValue}`].value = toDo[`${userValue}`];
         }
@@ -105,6 +113,42 @@ export const newToDoForm = () => {
     }
 
     return { open, close, newify, updateify }; 
+}
+
+export const newProjectForm = () => {
+
+    const wipe = () => {
+        // Make the form an easy to understand variable
+        let form = document.querySelector('#addNewProject');
+
+        // Wipe the form values
+        const cleanForm = (userValue) => {
+            form.elements[`${userValue}`].value = null;
+        }
+        cleanForm('name');
+        cleanForm('color');
+
+        document.querySelector('.fieldset-wrapper > .submit').textContent = 'Submit';
+    }
+
+    const open = () => {
+        document.querySelector('.project-overlay')
+        .classList.remove('hidden');
+
+        // Add event listener to close the overlay
+        document.querySelector('.project-overlay .fieldset-wrapper > img')
+        .addEventListener('click', close)
+    }
+    const close = () => {
+        document.querySelector('.project-overlay')
+        .classList.add('hidden');
+
+        // Remove the closing event listener once the button goes offscreen
+        document.querySelector('.project-overlay .fieldset-wrapper > img')
+        .removeEventListener('click', close)
+    }
+
+    return { open, close, wipe };
 }
 
 export const category = () => {
@@ -130,7 +174,13 @@ export const category = () => {
         _unload();
         /* Create an array with only the todos that will be loaded 
         in the currently selected array */
-        const newArr = toDoArr.filter(todo => (todo.categories.includes(category)))
+        const newArr = toDoArr.filter(todo => (todo.categories.includes(category)));
+        /* If there's no todos found with a match for the category,
+        then it must be a project, so scan for those */
+        if (typeof category === 'number') {
+            console.log(category)
+            newArr.push(...toDoArr.filter(todo => (todo.project.includes(category))))
+        }
         console.log(newArr);
         console.log(toDoArr);
 
@@ -142,13 +192,58 @@ export const category = () => {
     }
 
     const highlight = (category) => {
+        console.log(category);
         // Remove the bold from all category texts
         document.querySelectorAll(`.category > p`).forEach(element => element.classList.remove('bold'));
-        // Bold the selected category text
-        document.querySelector(`.${category} > p`).classList.add('bold');
+
+        if (typeof category === 'string') {
+            // Bold the selected category text
+            document.querySelector(`.${category} > p`).classList.add('bold');
+        } else {
+            // Bold the selected project
+            document.querySelector(`[data-projectnum="${category}"] > p`).classList.add('bold');
+        }
     }
 
-    return { load, highlight };
+    const buildNewProject = (newProject) => {
+
+        // Add the header for the main todos section
+        document.querySelector('main').appendChild(document.createElement('div')).classList.add(`ID${newProject.id}-group`);
+        document.querySelector(`.ID${newProject.id}-group`).classList.add('hidden');
+        document.querySelector(`.ID${newProject.id}-group`).appendChild(document.createElement('h2')).classList.add('to-do-header');
+        document.querySelector(`.ID${newProject.id}-group > .to-do-header:last-child`).appendChild(document.createElement('p')).textContent = newProject.name;
+
+        // Add the category to the left side
+        document.querySelector('.projects.list')
+        .appendChild(document.createElement('li')).classList.add('project', 'category');
+
+        // Give the DOM element an id so we can recognize it
+        document.querySelector('.projects.list').lastChild
+        .setAttribute('data-projectnum', newProject.id);
+
+        // Make the div circle and give it the chosen color
+        document.querySelector(`[data-projectnum="${newProject.id}"]`)
+        .appendChild(document.createElement('div'));
+        document.querySelector(`[data-projectnum="${newProject.id}"] div`)
+        .style.backgroundColor = newProject.color;
+
+        // Make the text element and name it after the project
+        document.querySelector(`[data-projectnum="${newProject.id}"]`)
+        .appendChild(document.createElement('p'));
+        document.querySelector(`[data-projectnum="${newProject.id}"] p`)
+        .textContent = newProject.name;
+
+        // Add a new option to the todo form 
+        document.querySelector(`#project`).appendChild(document.createElement('option')).setAttribute('value', newProject.id);
+        document.querySelector(`#project`).lastChild.textContent = newProject.name;
+
+        // Add event listener so it loads the proper todos when clicked
+        document.querySelector(`[data-projectnum="${newProject.id}"]`)
+        .addEventListener('click', categories().updateCategory.bind(null, newProject));
+
+    }
+
+    return { load, highlight, buildNewProject };
 }
 
 
@@ -160,22 +255,22 @@ const buildToDo = (newToDo, category) => {
     let img = document.createElement('img');
     let span = document.createElement('span');
     
-    content.querySelector(`.${category}-group`).classList.remove('hidden');
-    content.querySelector(`.${category}-group`).appendChild(li.cloneNode(true)).classList.add('to-do-item');
-    content.querySelector(`.${category}-group > .to-do-item:last-child`).setAttribute('data-id', newToDo.uniqueID);
-    content.querySelector(`.${category}-group > .to-do-item:last-child`).appendChild(div.cloneNode(true));
-    content.querySelector(`.${category}-group > .to-do-item:last-child > div`).appendChild(div.cloneNode(true)).classList.add('check-circle');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > div > div`).classList.add('hidden');
-    content.querySelector(`.${category}-group > .to-do-item:last-child`).appendChild(p.cloneNode(true)).textContent = newToDo.task;
-    content.querySelector(`.${category}-group > .to-do-item:last-child`).appendChild(span.cloneNode(true)).classList.add('options');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).appendChild(p.cloneNode(true)).classList.add('date');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options .date`).textContent = newToDo.date;
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).appendChild(img.cloneNode(true)).setAttribute('src', Edit);
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).lastChild.setAttribute('alt', 'edit');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).lastChild.classList.add('edit');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).appendChild(img.cloneNode(true)).setAttribute('src', Danger);
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).lastChild.setAttribute('alt', 'delete');
-    content.querySelector(`.${category}-group > .to-do-item:last-child > .options`).lastChild.classList.add('delete');
+    content.querySelector(`.ID${category}-group`).classList.remove('hidden');
+    content.querySelector(`.ID${category}-group`).appendChild(li.cloneNode(true)).classList.add('to-do-item');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child`).setAttribute('data-id', newToDo.uniqueID);
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(div.cloneNode(true));
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > div`).appendChild(div.cloneNode(true)).classList.add('check-circle');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > div > div`).classList.add('hidden');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(p.cloneNode(true)).textContent = newToDo.task;
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(span.cloneNode(true)).classList.add('options');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).appendChild(p.cloneNode(true)).classList.add('date');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options .date`).textContent = newToDo.date;
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).appendChild(img.cloneNode(true)).setAttribute('src', Edit);
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).lastChild.setAttribute('alt', 'edit');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).lastChild.classList.add('edit');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).appendChild(img.cloneNode(true)).setAttribute('src', Danger);
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).lastChild.setAttribute('alt', 'delete');
+    content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).lastChild.classList.add('delete');
     
 }
 

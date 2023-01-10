@@ -26,7 +26,6 @@ export const loadPage = () => {
     content.querySelector('header').appendChild(div.cloneNode(true)).classList.add('categories-header');
     content.querySelector('.categories-header').appendChild(h2.cloneNode(true)).classList.add('header');
     content.querySelector('header h2').textContent = 'Categories';
-    content.querySelector('.categories-header').appendChild(img.cloneNode(true)).setAttribute('src', Arrow);
     
     content.querySelector('header').appendChild(div.cloneNode(true)).classList.add('todo-header');
     content.querySelector('.todo-header').appendChild(document.createElement('h1')).classList.add('header');
@@ -54,27 +53,20 @@ export const loadPage = () => {
 
     navUl.querySelector('.inbox > p').classList.add('bold')
     
-    navUl.appendChild(li.cloneNode(true)).classList.add('projects-header', 'category');
-    navUl.lastChild.appendChild(img.cloneNode(true)).setAttribute('src', ThickArrow)
+    navUl.appendChild(li.cloneNode(true)).classList.add('projects-header');
     navUl.lastChild.appendChild(p.cloneNode(true)).textContent = 'Projects';
+    navUl.lastChild.appendChild(img.cloneNode(true)).setAttribute('src', PlusButton);
+    navUl.lastChild.querySelector('img').classList.add('create-project');
     content.querySelector('nav').appendChild(document.createElement('ul')).classList.add('projects', 'list');
-    content.querySelector('.projects.list').appendChild(li.cloneNode(true));
-    /* remove this when for real */ content.querySelector('.projects.list > li').setAttribute('data-projectnum', '1');
-    content.querySelector('.projects.list > li').classList.add('project', 'category');
-    content.querySelector('.projects.list > li').appendChild(div.cloneNode(true));
-    content.querySelector('.projects.list > li').appendChild(p.cloneNode(true)).textContent = 'Boobies';
 
     //now for main
     content.appendChild(document.createElement('main'));
     //now for main
     const buildHeader = (headerId, headerText) => {
-        document.querySelector('main').appendChild(document.createElement('div')).classList.add(`${headerId}-group`);
-        document.querySelector(`.${headerId}-group`).classList.add('hidden');
-        document.querySelector(`.${headerId}-group`).appendChild(document.createElement('h2')).classList.add('to-do-header');
-        document.querySelector(`.${headerId}-group > .to-do-header:last-child`).appendChild(document.createElement('p')).textContent = headerText;
-        document.querySelector(`.${headerId}-group > .to-do-header:last-child`).appendChild(document.createElement('img')).setAttribute('src', ThickArrow);
-        document.querySelector(`.${headerId}-group > .to-do-header:last-child > img`).setAttribute('alt', 'close/expand');
-        document.querySelector(`.${headerId}-group > .to-do-header:last-child > img`).classList.add('collapse-arrow');
+        document.querySelector('main').appendChild(document.createElement('div')).classList.add(`ID${headerId}-group`);
+        document.querySelector(`.ID${headerId}-group`).classList.add('hidden');
+        document.querySelector(`.ID${headerId}-group`).appendChild(document.createElement('h2')).classList.add('to-do-header');
+        document.querySelector(`.ID${headerId}-group > .to-do-header:last-child`).appendChild(document.createElement('p')).textContent = headerText;
     }
 
     buildHeader('highpriority', 'High Priority');
@@ -133,11 +125,56 @@ export const loadPage = () => {
     addOptions('priority', 'low', 'normal', 'high');
     newForm('notes', 'textarea', 'Use the green sponge...')
     newForm('project', 'select')
-    addOptions('project', 'boobies')
 
     content.querySelector('.fieldset-wrapper').appendChild(button.cloneNode(true)).classList.add('submit');
     content.querySelector('.submit').setAttribute('type', 'submit');
     content.querySelector('.submit').textContent = 'Submit';
+
+    // Now for the project overlay
+
+    content.appendChild(document.createElement('form')).classList.add('project-overlay', 'hidden');
+    content.querySelector('.project-overlay').setAttribute('id', 'addNewProject');
+    content.querySelector('.project-overlay').setAttribute('action', '');
+    content.querySelector('.project-overlay').appendChild(document.createElement('fieldset'));
+    content.querySelector('.project-overlay > fieldset').appendChild(div.cloneNode(true)).classList.add('fieldset-wrapper');
+    content.querySelector('.project-overlay .fieldset-wrapper').appendChild(img.cloneNode(true)).setAttribute('src', Close);
+    content.querySelector('.project-overlay .fieldset-wrapper').appendChild(document.createElement('legend')).textContent = 'Add New Project';
+
+    const newProjectForm = (type, formType, placeholder) => {
+        content.querySelector('.project-overlay .fieldset-wrapper').appendChild(div.cloneNode(true)).classList.add(`${type}-form`);
+        content.querySelector(`.${type}-form`).appendChild(document.createElement('label')).setAttribute('for', `${type}`);
+        content.querySelector(`.${type}-form > label`).textContent = type[0].toUpperCase() + type.slice(1);
+
+
+        if (formType == 'input') {
+            content.querySelector(`.${type}-form`).appendChild(document.createElement('input')).setAttribute('id', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('name', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('type', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('placeholder', `${placeholder}`);
+        } else if (formType == 'select') {
+            content.querySelector(`.${type}-form`).appendChild(document.createElement('select')).setAttribute('id', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('name', `${type}`)
+        } else if (formType == 'textarea') {
+            content.querySelector(`.${type}-form`).appendChild(document.createElement('textarea')).setAttribute('id', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('name', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('type', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('placeholder', `${placeholder}`);
+        } else if (formType == 'color') {
+            content.querySelector(`.${type}-form`).appendChild(document.createElement('input')).setAttribute('id', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('name', `${type}`);
+            content.querySelector(`#${type}`).setAttribute('type', `${type}`);
+        }
+
+
+    }
+
+    newProjectForm('name', 'input', 'Your Project\'s Name...');
+    newProjectForm('color', 'color');
+
+    content.querySelector('.project-overlay .fieldset-wrapper').appendChild(button.cloneNode(true)).classList.add('project-submit');
+    content.querySelector('.project-submit').setAttribute('type', 'submit');
+    content.querySelector('.project-submit').textContent = 'Submit';
+
 }
 
 // maybe next time make a function where i only have to give the queryselector and what i want to add to append a child.

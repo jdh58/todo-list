@@ -15,6 +15,12 @@ let uniqueID = 1;
 // define the todo array
 let toDoArr = [];
 
+// Define projectID as 1
+let projectID = 1;
+
+// define the projects array
+let projectArr = [];
+
 
 export const controller = () => {
 
@@ -124,7 +130,7 @@ const toDoArray = () => {
     return { addToDo, viewToDo, unaddToDo, overwriteToDo };
 }
 
-const categories = () => {
+export const categories = () => {
 
     const findCategory = (catText) => {
         // Make it lowercase and remove the space to line up with the html
@@ -157,26 +163,56 @@ const categories = () => {
         }
     }
 
-    const updateCategory = (event) => {
-        console.log(toDoArr)
-
+    const updateCategory = (project, event) => {
         // Set category equal to the text content of the clicked item
         let category = findCategory(event.target.textContent);
+
+        /* If a project was clicked instead of a category set category 
+        equal to the project's ID so the functions can identify it. */
+        if (project != null) {
+            category = project.id;
+        }
         
         DOMmanip.category().highlight(category);
         DOMmanip.category().load(toDoArr, category);
     }
 
+
+
+    const createNewProject = (event) => {
+        // Stop the page from refreshing
+        event.preventDefault();
+
+        // Make the form an easy to understand variable
+        let form = document.querySelector('#addNewProject');
+
+        let newProject = { 
+            name: form.elements['name'].value,
+            color: form.elements['color'].value,
+            id: projectID,
+        };
+
+        // Iterate projectID so the next project doesn't have the same one
+        projectID++;
+        
+        // Put the new project into the array
+        projectArr.push(newProject);
+
+        DOMmanip.category().buildNewProject(newProject);
+
+        DOMmanip.newProjectForm().close();
+    }
     
 
-    return { updateCategory, findCategory, setCategories }
+    return { updateCategory, findCategory, setCategories, createNewProject }
 }
 
 (function () {
     loadPage();
     DOMmanip.loadEventListeners();
 
-    // add an event listener to all the cateGory elements to update the variable
+    // add an event listener to all the category elements to update the variable
+    // Bind the null so the event is the second variable and the function can work with the projects too
     document.querySelectorAll('.category')
-    .forEach(element => element.addEventListener('click', categories().updateCategory))
+    .forEach(element => element.addEventListener('click', categories().updateCategory.bind(null, null)))
 })()
