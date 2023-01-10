@@ -13,6 +13,9 @@ import Sunny from './icons/sunny_FILL0_wght400_GRAD0_opsz48.svg'
 
 export const loadPage = () => {
 
+    document.title = 'To-Do List'
+    
+
     let content = document.body;
     let div = document.createElement('div');
     let p = document.createElement('p');

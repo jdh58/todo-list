@@ -88,8 +88,18 @@ export const controller = () => {
 
     const deleteToDo = (newArr, category, event) => {
         
-        // Go up the event path to find uniqueID
-        let removeID = event.composedPath()[2].getAttribute('data-id');
+        // Initialize removeID so the if-else can configure it
+        let removeID = 0
+
+        if (typeof event == 'string') {
+            removeID = event;
+        } else {
+            // Go up the event path to find uniqueID
+            removeID = event.composedPath()[2].getAttribute('data-id');
+        }
+
+        console.log(removeID)
+
         console.log(newArr)
         for (let i = 0; i < newArr.length; i++) {
             if (newArr[i].uniqueID == removeID) {

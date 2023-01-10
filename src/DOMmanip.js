@@ -153,11 +153,47 @@ export const newProjectForm = () => {
 
 export const category = () => {
 
+    const _completedStyles = (toDoArr, category, event) => {
+        event.composedPath()[1].querySelector('.check-circle')
+        .classList.add('clicked-circle')
+
+        event.composedPath()[1].style.opacity = '0%';
+
+        let removeToDoId = event.composedPath()[1].getAttribute('data-id');
+
+        setTimeout(() => {
+            controller().deleteToDo(toDoArr, category, removeToDoId);
+        }, 1500)
+    }
+
+    const _toDoHoverStyles = (event) => {
+        event.target.classList.add('hovered-todo')
+        event.composedPath()[1].querySelector('.check-circle')
+        .classList.add('hovered-circle')
+    }
+    const _removeToDoHoverStyles = (event) => {
+        event.target.classList.remove('hovered-todo')
+        event.composedPath()[1].querySelector('.check-circle')
+        .classList.remove('hovered-circle')
+    }
+
     const _addToDoListeners = (toDoArr, category) => {
         document.querySelectorAll(`.delete`)
         .forEach(element => element.addEventListener('click', controller().deleteToDo.bind(null, toDoArr, category)))
         document.querySelectorAll(`.edit`)
         .forEach(element => element.addEventListener('click', newToDoForm().updateify.bind(null, toDoArr, category)))
+
+        // Styling to highlight when hovering over the todo.
+        document.querySelectorAll(`.to-do-item > p`)
+        .forEach(element => element.addEventListener('mouseover', _toDoHoverStyles));
+        // Remove when unhovered
+        document.querySelectorAll(`.to-do-item > p`)
+        .forEach(element => element.addEventListener('mouseout', _removeToDoHoverStyles));
+
+        /* When clicked for completion, stylize it going away,
+        then remove from todo list. */
+        document.querySelectorAll(`.to-do-item > p`)
+        .forEach(element => element.addEventListener('click', _completedStyles.bind(null, toDoArr, category)));
     }
 
     const _unload = () => {
@@ -260,7 +296,6 @@ const buildToDo = (newToDo, category) => {
     content.querySelector(`.ID${category}-group > .to-do-item:last-child`).setAttribute('data-id', newToDo.uniqueID);
     content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(div.cloneNode(true));
     content.querySelector(`.ID${category}-group > .to-do-item:last-child > div`).appendChild(div.cloneNode(true)).classList.add('check-circle');
-    content.querySelector(`.ID${category}-group > .to-do-item:last-child > div > div`).classList.add('hidden');
     content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(p.cloneNode(true)).textContent = newToDo.task;
     content.querySelector(`.ID${category}-group > .to-do-item:last-child`).appendChild(span.cloneNode(true)).classList.add('options');
     content.querySelector(`.ID${category}-group > .to-do-item:last-child > .options`).appendChild(p.cloneNode(true)).classList.add('date');
