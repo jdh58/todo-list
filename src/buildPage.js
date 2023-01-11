@@ -120,8 +120,10 @@ export const loadPage = () => {
     }
 
     newForm('task', 'input', 'Wash the dishes');
-    content.querySelector('#task').setAttribute('minlength', '1');
+    content.querySelector('#task').setAttribute('pattern', '.{5,}'); // trying to do minlength with patterns
     content.querySelector('#task').setAttribute('maxlength', '20');
+    content.querySelector('#task').setAttribute('minlength', '5');
+    content.querySelector('#task').setAttribute('required', '');
 
     newForm('date', 'input');
     newForm('priority', 'select');
