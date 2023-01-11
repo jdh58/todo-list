@@ -2,11 +2,11 @@ import './styles.css';
 import { loadPage } from './buildPage.js';
 import * as DOMmanip from './DOMmanip.js';
 import { format, formatDistance, formatRelative, parseISO, addDays } from 'date-fns';
+import * as storage from './storage.js';
 
 const toDoItem = (task, date, priority, notes, project, uniqueID) => {
-    let completed = false;
     let categories = [];
-    return { task, date, priority, notes, project, completed, categories, uniqueID };
+    return { task, date, priority, notes, project, categories, uniqueID };
 }
 
 // Define uniqueID as 1
@@ -58,6 +58,8 @@ export const controller = () => {
     
         // Finally, reload the selected category
         DOMmanip.category().load(toDoArr, category);
+
+        storage.updateStorage(toDoArr, projectArr);
     }
 
     const updateToDo = (location, category, sameID, event) => {
@@ -71,10 +73,13 @@ export const controller = () => {
         let form = document.querySelector('#addNewToDo');
         
         // Make a new todo with the updated values
-        let newToDo = toDoItem(form.elements['task'].value,
-        form.elements['date'].value, form.elements['priority'].value,
-        form.elements['notes'].value, form.elements['project'].value,
-        sameID)
+        let newToDo = toDoItem(
+            form.elements['task'].value,
+            form.elements['date'].value,
+            form.elements['priority'].value,
+            form.elements['notes'].value,
+            form.elements['project'].value,
+            sameID)
         
         // Set the categories for the todo
         categories().setCategories(newToDo);
@@ -84,6 +89,8 @@ export const controller = () => {
         
         // Load the current category
         DOMmanip.category().load(toDoArr, category)
+
+        storage.updateStorage(toDoArr, projectArr);
     }
 
     const deleteToDo = (newArr, category, event) => {
@@ -110,7 +117,9 @@ export const controller = () => {
     
         toDoArr = newArr;
     
-        DOMmanip.category().load(toDoArr, category);   
+        DOMmanip.category().load(toDoArr, category);
+
+        storage.updateStorage(toDoArr, projectArr);
     }
 
     return { createNewToDo, updateToDo, deleteToDo }
@@ -182,16 +191,19 @@ export const categories = () => {
         if (project != null) {
             category = project.id;
         }
+        console.log(typeof category)
+        console.log(project)
         
         DOMmanip.category().highlight(category);
         DOMmanip.category().load(toDoArr, category);
     }
 
-
-
     const createNewProject = (event) => {
         // Stop the page from refreshing
         event.preventDefault();
+
+        console.log(projectID)
+        console.log(projectArr)
 
         // Make the form an easy to understand variable
         let form = document.querySelector('#addNewProject');
@@ -207,22 +219,68 @@ export const categories = () => {
         
         // Put the new project into the array
         projectArr.push(newProject);
+        console.log(projectArr)
 
+        // Build the project's category label and the form option
         DOMmanip.category().buildNewProject(newProject);
 
+        // Close the form 
         DOMmanip.newProjectForm().close();
+
+        storage.updateStorage(toDoArr, projectArr);
+
+        console.log(projectArr)
+    }
+
+    const loadStoredItems = (toDoArr, projectArr) => {
+
+        /* We don't store categories becuase we can find them at
+        any time, so re-add them now. */
+        toDoArr.forEach(todo => setCategories(todo))
+
+        // Load the todos in the inbox category
+        DOMmanip.category().load(toDoArr, 'inbox');
+
+        // Build each project in the DOM
+        projectArr.forEach(project => DOMmanip.category().buildNewProject(project))
     }
     
 
-    return { updateCategory, findCategory, setCategories, createNewProject }
+    return { updateCategory, findCategory, setCategories, createNewProject, loadStoredItems }
 }
 
 (function () {
     loadPage();
     DOMmanip.loadEventListeners();
-
+    
     // add an event listener to all the category elements to update the variable
     // Bind the null so the event is the second variable and the function can work with the projects too
     document.querySelectorAll('.category')
     .forEach(element => element.addEventListener('click', categories().updateCategory.bind(null, null)))
+
+
+    // Now for the storage implementation
+    let storedValues = storage.convertStorage()
+
+    // Set the todo and project arrays equal to their stored values
+    toDoArr = storedValues[0];
+    projectArr = storedValues[1];
+
+
+    console.log(projectArr)
+    if (toDoArr.length >= 1 || projectArr.length >= 1) {
+        categories().loadStoredItems(toDoArr, projectArr);
+    }
+    console.log(projectArr)
+    console.log(projectArr[projectArr.length-1].id)
+
+    /* Update the IDs so they dont go back to 1 and overlap with
+    stored todos or projects. Use the latest stored one + 1.*/
+    if (toDoArr.length >= 1) {
+        uniqueID = toDoArr[toDoArr.length-1].uniqueID + 1;
+    }
+    if (projectArr.length >= 1) {
+        projectID = projectArr[projectArr.length-1].id + 1;
+    }
+
 })()

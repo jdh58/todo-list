@@ -243,6 +243,7 @@ export const category = () => {
 
     const buildNewProject = (newProject) => {
 
+        console.log(newProject)
         // Add the header for the main todos section
         document.querySelector('main').appendChild(document.createElement('div')).classList.add(`ID${newProject.id}-group`);
         document.querySelector(`.ID${newProject.id}-group`).classList.add('hidden');
